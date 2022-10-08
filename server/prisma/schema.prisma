@@ -1,0 +1,152 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//USER
+model User {
+  id           String  @id @unique @default(uuid())
+  name         String
+  email        String  @unique
+  image        String
+  isBlocked    Boolean @default(false)
+  isDeleted    Boolean @default(false)
+  passwordHash String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  UserPermissions UserPermissions[]
+
+  @@map("users")
+}
+
+//PERMISSIONS
+model Permission {
+  id   String @id @unique @default(uuid())
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Permissions UserPermissions[]
+
+  @@map("permissions")
+}
+
+model UserPermissions {
+  id           String @id @unique @default(uuid())
+  userId       String
+  permissionId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@map("userPermissions")
+}
+
+//ANIMALS
+
+model Animal {
+  id       String @id @unique @default(uuid())
+  breedId  String
+  genderId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Breed  Breed  @relation(fields: [breedId], references: [id], onDelete: Cascade)
+  Gender Gender @relation(fields: [genderId], references: [id], onDelete: Cascade)
+
+  AnimalHistory       AnimalHistory[]
+  AnimalActionHistory AnimalActionHistory[]
+
+  @@map("animals")
+}
+
+model AnimalHistory {
+  id       String @id @unique @default(uuid())
+  animalId String
+
+  age    Float
+  weight Float
+  image  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Animal Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  @@map("animalsHistory")
+}
+
+model AnimalActionHistory {
+  id              String @id @unique @default(uuid())
+  animalHistoryId String
+  animalId        String
+
+  age    Float
+  weight Float
+  image  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Animal Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+
+  @@map("animalsActionsHistory")
+}
+
+model AnimalAction {
+  id   String @id @unique @default(uuid())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("animalsActions")
+}
+
+model Breed {
+  id   String @id @unique @default(uuid())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Animal    Animal[]
+
+  @@map("breeds")
+}
+
+model Gender {
+  id   String @id @unique @default(uuid())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Animal    Animal[]
+
+  @@map("genders")
+}
+
+//LOCALS
+
+model Local {
+  id   String @id @unique @default(uuid())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("locals")
+}

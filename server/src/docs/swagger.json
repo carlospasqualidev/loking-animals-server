@@ -1,0 +1,1418 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Sul Óxidos",
+    "description": "Documentação API Sul Óxidos",
+    "version": "1.0.0",
+    "contact": {
+      "email": "produto@adalovelace.com.br",
+      "name": "Ada Lovelace"
+    }
+  },
+  "servers": [
+    {
+      "description": "Local Development",
+      "url": "http://localhost:8080/api"
+    },
+    {
+      "description": "Sandbox",
+      "url": "https://suloxidos-sandbox.herokuapp.com/api-docs"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "responses": {
+      "ServerMessage": {
+        "description": "Mensagem de erro padrão do backend.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ServerMessage": {
+                  "properties": {
+                    "statusCode": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/backoffice/auth/login": {
+      "post": {
+        "tags": ["Backoffice | Auth"],
+        "summary": "Login do usuário no backoffice.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "default": "admin@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": 123123123
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Retorna as informações do usuário e um token válido.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "image": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/auth/login": {
+      "post": {
+        "tags": ["Lab | Auth"],
+        "summary": "Login do usuário no Laboratorio.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "default": "admin@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": 123123123
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Retorna as informações do usuário e um token válido.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string"
+                        },
+                        "image": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/backoffice/users/create": {
+      "post": {
+        "tags": ["Backoffice | Users"],
+        "summary": "Cria um novo usuário.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "default": "Carlos Pasquali"
+                  },
+                  "email": {
+                    "type": "string",
+                    "default": "carlosdpasqualip@hotmail.com"
+                  },
+                  "image": {
+                    "type": "string",
+                    "default": "link"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": 123123123
+                  },
+                  "role": {
+                    "type": "string",
+                    "default": "Funcionario"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/backoffice/users/list": {
+      "get": {
+        "tags": ["Backoffice | Users"],
+        "summary": "Lista todos os usuarios",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "example": "1",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Retorna os usuarios encontrados.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "image": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string"
+                      },
+                      "isBlocked": {
+                        "type": "boolean"
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/backoffice/users/edit": {
+      "put": {
+        "tags": ["Backoffice | Users"],
+        "summary": "Edita as informações do usuário",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string",
+                    "default": "Carlos Pasquali"
+                  },
+                  "email": {
+                    "type": "string",
+                    "default": "carlosdpasqualip@hotmail.com"
+                  },
+                  "image": {
+                    "type": "string",
+                    "default": "link"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": 123123123
+                  },
+                  "role": {
+                    "type": "string",
+                    "default": "Funcionario"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/backoffice/users/change/isBlocked": {
+      "put": {
+        "tags": ["Backoffice | Users"],
+        "summary": "Altera o status do usuário (Bloqueado, Ativo).",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/backoffice/users/change/isDeleted": {
+      "put": {
+        "tags": ["Backoffice | Users"],
+        "summary": "Define o usuário como excluído, mas ainda mantem o mesmo na base de dados.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/users/edit": {
+      "put": {
+        "tags": ["Lab | Users"],
+        "summary": "Edita as informacões do usuário.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "default": "Carlos Pasquali"
+                  },
+                  "image": {
+                    "type": "string",
+                    "default": "link"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/equations/create": {
+      "post": {
+        "tags": ["Lab | Equations"],
+        "summary": "Cria uma nova equação.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "default": "Bhaskara"
+                  },
+                  "equation": {
+                    "type": "string",
+                    "default": "(-b+(b^2-4*a*c)^(1/2))/(2*a)"
+                  },
+                  "decimalPlaces": {
+                    "type": "string",
+                    "default": "2"
+                  },
+                  "unitMeasurement": {
+                    "type": "string",
+                    "default": "cm"
+                  },
+                  "symbol": {
+                    "type": "string",
+                    "default": "X"
+                  },
+                  "variables": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "decimalPlaces": {
+                          "type": "string",
+                          "default": "2"
+                        },
+                        "unitMeasurement": {
+                          "type": "string",
+                          "default": "cm"
+                        },
+                        "symbol": {
+                          "type": "string",
+                          "default": "X"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/equations/edit": {
+      "put": {
+        "tags": ["Lab | Equations"],
+        "summary": "Edita uma equação.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "equationId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string",
+                    "default": "Bhaskara"
+                  },
+                  "equation": {
+                    "type": "string",
+                    "default": "(-b+(b^2-4*a*c)^(1/2))/(2*a)"
+                  },
+                  "decimalPlaces": {
+                    "type": "string",
+                    "default": "2"
+                  },
+                  "unitMeasurement": {
+                    "type": "string",
+                    "default": "cm"
+                  },
+                  "symbol": {
+                    "type": "string",
+                    "default": "X"
+                  },
+                  "variables": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "decimalPlaces": {
+                          "type": "string",
+                          "default": "2"
+                        },
+                        "unitMeasurement": {
+                          "type": "string",
+                          "default": "cm"
+                        },
+                        "symbol": {
+                          "type": "string",
+                          "default": "X"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/equations/list": {
+      "get": {
+        "tags": ["Lab | Equations"],
+        "summary": "Busca todas equações e suas versões",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "example": "1",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Retorna todas equações e suas versões.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "equations": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string",
+                            "default": "Soma"
+                          },
+                          "equation": {
+                            "type": "string"
+                          },
+                          "decimalPlaces": {
+                            "type": "string"
+                          },
+                          "symbol": {
+                            "type": "string"
+                          },
+                          "unitMeasurement": {
+                            "type": "string"
+                          },
+                          "Variables": {
+                            "type": "array",
+                            "items": {
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "decimalPlaces": {
+                                  "type": "string"
+                                },
+                                "unitMeasurement": {
+                                  "type": "string"
+                                },
+                                "symbol": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "equationsCount": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/equations/change/isDeleted": {
+      "put": {
+        "tags": ["Lab | Equations"],
+        "summary": "Define a equação como excluído, mas ainda mantem a mesma na base de dados.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "equationId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/testprofiles/create": {
+      "post": {
+        "tags": ["Lab | Tests Profiles"],
+        "summary": "Cria um novo ensaio.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "default": "Ensaio de teste"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/testprofiles/change/isDeleted": {
+      "put": {
+        "tags": ["Lab | Tests Profiles"],
+        "summary": "Define o ensaio como excluído, mas ainda mantem o mesmo na base de dados.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "testProfileId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/testprofiles/edit": {
+      "put": {
+        "tags": ["Lab | Tests Profiles"],
+        "summary": "Edita um ensaio.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "testProfileId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/testprofiles/list": {
+      "get": {
+        "tags": ["Lab | Tests Profiles"],
+        "summary": "Busca todos ensaios e suas versões",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "example": "1",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Retorna todos ensaios e suas versões.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "testProfiles": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "lastUse": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    },
+                    "testProfilesCount": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/matrixs/create": {
+      "post": {
+        "tags": ["Lab | Matrixs"],
+        "summary": "Cria uma nova matriz.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "matrixTypeId": {
+                    "type": "string"
+                  },
+                  "expirationDateId": {
+                    "type": "string"
+                  },
+                  "locationId": {
+                    "type": "string"
+                  },
+                  "responsibleUserId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string",
+                    "default": "Oxido de zinco"
+                  },
+                  "description": {
+                    "type": "string",
+                    "default": "Descricao do processo"
+                  },
+                  "MatrixTests": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "testProfileId": {
+                          "type": "string"
+                        },
+                        "Methods": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "equationId": {
+                                "type": "string"
+                              },
+                              "isDefaultTest": {
+                                "type": "boolean",
+                                "default": false
+                              },
+                              "useDefaultEquationConfig": {
+                                "type": "boolean",
+                                "default": false
+                              },
+                              "unitMeasurement": {
+                                "type": "string"
+                              },
+                              "decimalPlaces": {
+                                "type": "string"
+                              },
+                              "methodQuantificationLimitValue": {
+                                "type": "number"
+                              },
+                              "methodQuantificationLimitType": {
+                                "type": "string"
+                              },
+                              "conversionFactorValue": {
+                                "type": "number"
+                              },
+                              "conversionFactorType": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/matrixs/edit": {
+      "put": {
+        "tags": ["Lab | Matrixs"],
+        "summary": "Edita uma matriz.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "matrixId": {
+                    "type": "string"
+                  },
+                  "matrixTypeId": {
+                    "type": "string"
+                  },
+                  "expirationDateId": {
+                    "type": "string"
+                  },
+                  "locationId": {
+                    "type": "string"
+                  },
+                  "responsibleUserId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string",
+                    "default": "Oxido de zinco"
+                  },
+                  "description": {
+                    "type": "string",
+                    "default": "Descricao do processo"
+                  },
+                  "MatrixTests": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "testProfileId": {
+                          "type": "string"
+                        },
+                        "Methods": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "equationId": {
+                                "type": "string"
+                              },
+                              "isDefaultTest": {
+                                "type": "boolean",
+                                "default": false
+                              },
+                              "useDefaultEquationConfig": {
+                                "type": "boolean",
+                                "default": false
+                              },
+                              "unitMeasurement": {
+                                "type": "string"
+                              },
+                              "decimalPlaces": {
+                                "type": "string"
+                              },
+                              "methodQuantificationLimitValue": {
+                                "type": "number"
+                              },
+                              "methodQuantificationLimitType": {
+                                "type": "string"
+                              },
+                              "conversionFactorValue": {
+                                "type": "number"
+                              },
+                              "conversionFactorType": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/matrixs/change/isDeleted": {
+      "put": {
+        "tags": ["Lab | Matrixs"],
+        "summary": "Define a matriz como excluída, mas ainda mantem a mesma na base de dados.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "matrixId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/lab/matrixs/list": {
+      "get": {
+        "tags": ["Lab | Matrixs"],
+        "summary": "Busca todas as matrizes e suas versões",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "example": "1",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Retorna todas matrizes e suas versões.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Matrixs": {
+                      "type": "object",
+                      "properties": {
+                        "Matrixs": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+
+                              "name": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+
+                              "Location": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+
+                              "ResponsibleUser": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+
+                              "MatrixType": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+
+                              "MatrixTests": {
+                                "type": "array",
+
+                                "items": {
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "isDefaultTest": {
+                                      "type": "boolean"
+                                    },
+                                    "unitMeasurement": {
+                                      "type": "string"
+                                    },
+                                    "decimalPlaces": {
+                                      "type": "string"
+                                    },
+                                    "methodQuantificationLimitValue": {
+                                      "type": "number"
+                                    },
+                                    "methodQuantificationLimitType": {
+                                      "type": "string"
+                                    },
+                                    "conversionFactorValue": {
+                                      "type": "number"
+                                    },
+                                    "conversionFactorType": {
+                                      "type": "string"
+                                    },
+                                    "Equation": {
+                                      "properties": {
+                                        "id": {
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "type": "string"
+                                        },
+                                        "unitMeasurement": {
+                                          "type": "string"
+                                        },
+                                        "decimalPlaces": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "ExpirationDate": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "matrixsCount": {
+                          "type": "string"
+                        }
+                      }
+                    },
+
+                    "AuxiliaryData": {
+                      "type": "object",
+                      "properties": {
+                        "TestProfiles": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+
+                        "Locations": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+
+                        "ExpirationDates": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "Users": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    }
+  }
+}
