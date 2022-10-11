@@ -3,7 +3,7 @@ import { ICreateAnimal, ICreateAnimalHistory } from './types';
 
 export class AnimalServices {
   async create({ breedId, genderId }: ICreateAnimal) {
-    await prisma.animal.create({
+    return prisma.animal.create({
       data: {
         breedId,
         genderId,
@@ -12,7 +12,7 @@ export class AnimalServices {
   }
 
   async createHistory({ animalId, age, weight, image }: ICreateAnimalHistory) {
-    await prisma.animalHistory.create({
+    return prisma.animalHistory.create({
       data: {
         animalId,
         age,

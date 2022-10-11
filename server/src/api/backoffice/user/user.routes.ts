@@ -2,7 +2,7 @@
 import { Router } from 'express';
 
 // VALIDATORS
-import { isAdmin } from '../../../middlewares/permissions/isAdmin';
+import { isAdmin } from '../../../middlewares/permissions/isBackoffice';
 
 // FUNCTIONS
 import { createUser } from './controllers/createUser';

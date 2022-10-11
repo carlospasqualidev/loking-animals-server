@@ -120,77 +120,10 @@
       }
     },
 
-    "/lab/auth/login": {
+    "/backoffice/animals/create": {
       "post": {
-        "tags": ["Lab | Auth"],
-        "summary": "Login do usuário no Laboratorio.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "default": "admin@gmail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "default": 123123123
-                  }
-                }
-              }
-            }
-          }
-        },
-
-        "responses": {
-          "200": {
-            "description": "Retorna as informações do usuário e um token válido.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "user": {
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "name": {
-                          "type": "string"
-                        },
-                        "email": {
-                          "type": "string"
-                        },
-                        "image": {
-                          "type": "string"
-                        },
-                        "role": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "token": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/ServerMessage"
-          }
-        }
-      }
-    },
-
-    "/backoffice/users/create": {
-      "post": {
-        "tags": ["Backoffice | Users"],
-        "summary": "Cria um novo usuário.",
+        "tags": ["Backoffice | Animals"],
+        "summary": "Cria um novo animal.",
         "security": [
           {
             "bearerAuth": []
@@ -203,25 +136,20 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": {
-                    "type": "string",
-                    "default": "Carlos Pasquali"
+                  "breedId": {
+                    "type": "string"
                   },
-                  "email": {
-                    "type": "string",
-                    "default": "carlosdpasqualip@hotmail.com"
+                  "genderId": {
+                    "type": "string"
                   },
-                  "image": {
-                    "type": "string",
-                    "default": "link"
+
+                  "age": {
+                    "type": "number",
+                    "default": 100
                   },
-                  "password": {
-                    "type": "string",
-                    "default": 123123123
-                  },
-                  "role": {
-                    "type": "string",
-                    "default": "Funcionario"
+                  "weight": {
+                    "type": "number",
+                    "default": 300
                   }
                 }
               }

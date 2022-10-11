@@ -6,7 +6,7 @@ import { PermissionServices } from '../../api/shared/permission/services/permiss
 
 const permissionServices = new PermissionServices();
 
-export const isAdmin = async (
+export const isBackoffice = async (
   req: Request,
   // eslint-disable-next-line no-unused-vars
   _res: Response,
@@ -16,7 +16,7 @@ export const isAdmin = async (
 
   await permissionServices.checkPermission({
     userPermissions: permissions,
-    permission: 'Admin',
+    permission: 'Backoffice',
   });
 
   next();
