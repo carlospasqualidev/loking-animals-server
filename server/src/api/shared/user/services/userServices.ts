@@ -7,19 +7,12 @@ import { prisma } from '../../../../utils/prismaClient';
 import { IEditUser, IEditUserPassword, IListUser } from './types';
 
 export class UserServices {
-  async create({
-    name,
-    email,
-    image,
-    role,
-    passwordHash,
-  }: Prisma.UserCreateInput) {
+  async create({ name, email, image, passwordHash }: Prisma.UserCreateInput) {
     return (await prisma.user.create({
       data: {
         name,
         email: email.toLowerCase(),
         image,
-        role,
         passwordHash: hashSync(passwordHash, 12),
       },
     })) as Prisma.UserCreateInput;
@@ -32,7 +25,6 @@ export class UserServices {
         name: true,
         email: true,
         image: true,
-        role: true,
         isBlocked: true,
         isDeleted: true,
         updatedAt: true,
@@ -57,7 +49,6 @@ export class UserServices {
         name: true,
         email: true,
         image: true,
-        role: true,
         isBlocked: true,
         isDeleted: true,
         updatedAt: true,
@@ -79,7 +70,6 @@ export class UserServices {
         name: true,
         email: true,
         image: true,
-        role: true,
         isBlocked: true,
         isDeleted: true,
         updatedAt: true,
@@ -89,13 +79,12 @@ export class UserServices {
     })) as Prisma.UserCreateInput;
   }
 
-  async edit({ userId, name, email, image, role }: IEditUser) {
+  async edit({ userId, name, email, image }: IEditUser) {
     await prisma.user.update({
       data: {
         name,
         email,
         image,
-        role,
       },
       where: { id: userId },
     });
@@ -115,15 +104,6 @@ export class UserServices {
     await prisma.user.update({
       data: {
         passwordHash: hashSync(password, 12),
-      },
-      where: { id: userId },
-    });
-  }
-
-  async updateLastAccess({ userId }: { userId: string }) {
-    await prisma.user.update({
-      data: {
-        lastAccess: new Date(),
       },
       where: { id: userId },
     });
@@ -156,9 +136,7 @@ export class UserServices {
         name: true,
         email: true,
         image: true,
-        role: true,
         updatedAt: true,
-        lastAccess: true,
         createdAt: true,
         isBlocked: true,
         isDeleted: true,

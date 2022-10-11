@@ -7,7 +7,6 @@ export interface IResponseFindByEmail {
   isBlocked: false;
   isDeleted: true;
   passwordHash: string;
-  lastAccess: Date;
   createdAt: Date;
   updatedAt: Date;
   UserPermissions: [{ Permission: { name: string } }];

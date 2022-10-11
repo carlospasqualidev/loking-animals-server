@@ -5,12 +5,10 @@ import { Response, Request } from 'express';
 import { AuthServices } from '../../../shared/auth/services/authServices';
 import { HandlerToken } from '../../../../utils/token/handlerToken';
 import { Validator } from '../../../../utils/validator/validator';
-import { UserServices } from '../../../shared/user/services/userServices';
 import { PermissionServices } from '../../../shared/permission/services/permissionServices';
 
 const permissionServices = new PermissionServices();
 const authServices = new AuthServices();
-const userServices = new UserServices();
 const handlerToken = new HandlerToken();
 
 const validator = new Validator();
@@ -29,10 +27,8 @@ export const authAdmin = async (req: Request, res: Response) => {
 
   await permissionServices.checkPermission({
     userPermissions: user?.UserPermissions,
-    permission: 'Admin',
+    permission: 'Backoffice',
   });
-
-  await userServices.updateLastAccess({ userId: user.id! });
 
   const token = handlerToken.generateToken({
     tokenData: { userId: user.id!, Permissions: user.UserPermissions },

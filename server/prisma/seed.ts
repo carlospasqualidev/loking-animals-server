@@ -13,11 +13,13 @@ async function main() {
 
   await seedServices.createAdminAndPermissions();
 
+  await seedServices.createAnimalActions();
+
+  await seedServices.createBreeds();
+
+  await seedServices.createGenders();
+
   await seedServices.createLocations();
-
-  await seedServices.createExpirationDates();
-
-  await seedServices.createMatrixTypes();
 }
 
 main()

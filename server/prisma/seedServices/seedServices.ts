@@ -4,14 +4,14 @@ import { hashSync } from 'bcrypt';
 import { prisma } from '../../src/utils/prismaClient';
 
 // CLASS
-import { LocationServices } from '../../src/api/shared/location/services/locationServices';
 import { PermissionServices } from '../../src/api/shared/permission/services/permissionServices';
 
 const permissionServices = new PermissionServices();
-const locationServices = new LocationServices();
 
 export class SeedServices {
   async createPermissions() {
+    console.log('initiating the creation of permissions ...');
+
     const permissions: Prisma.PermissionCreateInput[] = [
       {
         name: 'Backoffice',
@@ -28,24 +28,20 @@ export class SeedServices {
   }
 
   async createAdminAndPermissions() {
-    // admin
+    console.log('initiating the creation of Admin ...');
+
     const admin = await prisma.user.create({
       data: {
         name: 'Admin',
         email: 'admin@gmail.com',
         image:
           'https://altorendimento.s3.us-west-2.amazonaws.com/Logo-1658407533329.png',
-        role: 'Administrador',
         passwordHash: hashSync('123123123', 12),
       },
     });
 
     const permissionAdmin = await permissionServices.findByName({
-      name: 'Admin',
-    });
-
-    const permissionLab = await permissionServices.findByName({
-      name: 'Lab',
+      name: 'Backoffice',
     });
 
     await prisma.userPermissions.create({
@@ -55,23 +51,17 @@ export class SeedServices {
       },
     });
     console.log('permission ', permissionAdmin.name, ' inserted in Admin');
-
-    await prisma.userPermissions.create({
-      data: {
-        userId: admin.id,
-        permissionId: permissionLab.id!,
-      },
-    });
-    console.log('permission ', permissionLab.name, ' inserted in Admin');
   }
 
   async createLocations() {
+    console.log('initiating the creation of locations ...');
+
     const locations = [
       {
         name: 'Pasto',
       },
       {
-        name: 'Comedouro',
+        name: 'Comida',
       },
       {
         name: 'Vacina',
@@ -79,10 +69,98 @@ export class SeedServices {
     ];
 
     for (const location of locations) {
-      await locationServices.create({
-        name: location.name,
+      await prisma.local.create({
+        data: {
+          name: location.name,
+        },
       });
       console.log('location ', location.name, ' inserted');
+    }
+  }
+
+  async createAnimalActions() {
+    console.log('initiating the creation of animal actions ...');
+
+    const Actions: { name: string }[] = [
+      {
+        name: 'Movimento',
+      },
+      {
+        name: 'Comendo',
+      },
+      {
+        name: 'Vacinando',
+      },
+    ];
+
+    for (const action of Actions) {
+      await prisma.animalAction.create({
+        data: {
+          name: action.name,
+        },
+      });
+      console.log('action ', action.name, ' inserted');
+    }
+  }
+
+  async createBreeds() {
+    console.log('initiating the creation of animal breeds ...');
+
+    const Breeds: { name: string }[] = [
+      {
+        name: 'Jersey',
+      },
+      {
+        name: 'Holandês',
+      },
+      {
+        name: 'Pardo Suíço',
+      },
+      {
+        name: 'Gir',
+      },
+      {
+        name: 'Girolando',
+      },
+      {
+        name: 'Guzerá ',
+      },
+      {
+        name: 'Sindi ',
+      },
+    ];
+
+    for (const breed of Breeds) {
+      await prisma.breed.create({
+        data: {
+          name: breed.name,
+        },
+      });
+
+      console.log('breed ', breed.name, ' inserted');
+    }
+  }
+
+  async createGenders() {
+    console.log('initiating the creation of animal genders ...');
+
+    const Genders: { name: string }[] = [
+      {
+        name: 'Macho',
+      },
+      {
+        name: 'Femea',
+      },
+    ];
+
+    for (const gender of Genders) {
+      await prisma.gender.create({
+        data: {
+          name: gender.name,
+        },
+      });
+
+      console.log('gender ', gender.name, ' inserted');
     }
   }
 }
