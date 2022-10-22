@@ -91,18 +91,20 @@ model AnimalHistory {
 }
 
 model AnimalActionHistory {
-  id              String @id @unique @default(uuid())
-  animalHistoryId String
-  animalId        String
+  id       String @id @unique @default(uuid())
+  animalId String
+  localId  String
+  actionId String
 
-  age    Float
-  weight Float
-  image  String
+  startTime DateTime @default(now())
+  DateTime  DateTime @updatedAt
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Animal Animal @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  Animal       Animal        @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  AnimalAction AnimalAction? @relation(fields: [actionId], references: [id], onDelete: Cascade)
+  Local        Local?        @relation(fields: [localId], references: [id], onDelete: Cascade)
 
   @@map("animalsActionsHistory")
 }
@@ -113,6 +115,8 @@ model AnimalAction {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  AnimalActionHistory AnimalActionHistory[]
 
   @@map("animalsActions")
 }
@@ -147,6 +151,8 @@ model Local {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  AnimalActionHistory AnimalActionHistory[]
 
   @@map("locals")
 }

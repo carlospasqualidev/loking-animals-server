@@ -2,7 +2,7 @@
 import { Router } from 'express';
 
 // VALIDATORS
-import { isAdmin } from '../../../middlewares/permissions/isBackoffice';
+import { isBackoffice } from '../../../middlewares/permissions/isBackoffice';
 
 // FUNCTIONS
 import { createUser } from './controllers/createUser';
@@ -14,8 +14,8 @@ import { changeIsDeleted } from './controllers/changeIsDeleted';
 // ROUTES
 export const userRouter = Router();
 
-userRouter.post('/create', isAdmin, createUser);
-userRouter.get('/list', isAdmin, listUsers);
-userRouter.put('/edit', isAdmin, editUser);
-userRouter.put('/change/isBlocked', isAdmin, changeIsBlocked);
-userRouter.put('/change/isDeleted', isAdmin, changeIsDeleted);
+userRouter.post('/create', isBackoffice, createUser);
+userRouter.get('/list', isBackoffice, listUsers);
+userRouter.put('/edit', isBackoffice, editUser);
+userRouter.put('/change/isBlocked', isBackoffice, changeIsBlocked);
+userRouter.put('/change/isDeleted', isBackoffice, changeIsDeleted);

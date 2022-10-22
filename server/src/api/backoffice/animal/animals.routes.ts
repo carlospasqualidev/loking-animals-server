@@ -6,8 +6,11 @@ import { isBackoffice } from '../../../middlewares/permissions/isBackoffice';
 
 // FUNCTIONS
 import { createAnimal } from './controllers/create';
+import { animalsList } from './controllers/list';
 
 // ROUTES
-export const userRouter = Router();
+export const animalRouter = Router();
 
-userRouter.post('/create', isBackoffice, createAnimal);
+animalRouter.post('/create', isBackoffice, createAnimal);
+// animalRouter.get('/list', isBackoffice, animalsList);
+animalRouter.get('/list', animalsList);

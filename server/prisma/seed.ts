@@ -20,6 +20,8 @@ async function main() {
   await seedServices.createGenders();
 
   await seedServices.createLocations();
+
+  await seedServices.createAnimals();
 }
 
 main()

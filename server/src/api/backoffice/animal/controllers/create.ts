@@ -20,8 +20,6 @@ export async function createAnimal(req: Request, res: Response) {
 
   const animal = await animalServices.create({ breedId, genderId });
 
-  console.log(animal);
-
   const animalHistory = await animalServices.createHistory({
     animalId: animal.id,
     age,
@@ -29,8 +27,6 @@ export async function createAnimal(req: Request, res: Response) {
     image:
       'https://www.bing.com/images/search?q=imagem%20de%20Vaca&FORM=IQFRBA&id=E954303B35A109CC59CE441997C32CC61B22A3A1',
   });
-
-  console.log(animalHistory);
 
   return res.status(200).json({
     Animal: {
