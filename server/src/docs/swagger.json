@@ -120,54 +120,6 @@
       }
     },
 
-    "/backoffice/animals/create": {
-      "post": {
-        "tags": ["Backoffice | Animals"],
-        "summary": "Cria um novo animal.",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "breedId": {
-                    "type": "string"
-                  },
-                  "genderId": {
-                    "type": "string"
-                  },
-
-                  "age": {
-                    "type": "number",
-                    "default": 100
-                  },
-                  "weight": {
-                    "type": "number",
-                    "default": 300
-                  }
-                }
-              }
-            }
-          }
-        },
-
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/ServerMessage"
-          },
-          "400": {
-            "$ref": "#/components/responses/ServerMessage"
-          }
-        }
-      }
-    },
-
     "/backoffice/users/list": {
       "get": {
         "tags": ["Backoffice | Users"],
@@ -371,9 +323,99 @@
         }
       }
     },
+
+    "/backoffice/animals/create": {
+      "post": {
+        "tags": ["Backoffice | Animals"],
+        "summary": "Cria um novo animal.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "breedId": {
+                    "type": "string"
+                  },
+                  "genderId": {
+                    "type": "string"
+                  },
+
+                  "age": {
+                    "type": "number",
+                    "default": 100
+                  },
+                  "weight": {
+                    "type": "number",
+                    "default": 300
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+    "/backoffice/animals/create/action": {
+      "post": {
+        "tags": ["Backoffice | Animals"],
+        "summary": "Cria uma nova ação para o animal.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "animalId": {
+                    "type": "string"
+                  },
+                  "animalActionId": {
+                    "type": "string"
+                  },
+                  "localId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
     "/backoffice/animals/list": {
       "get": {
-        "tags": ["Backoffice | Users"],
+        "tags": ["Backoffice | Animals"],
         "summary": "Lista todos os usuarios",
         "security": [
           {
@@ -422,6 +464,27 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
+    "/backoffice/animals/dashboard": {
+      "get": {
+        "tags": ["Backoffice | Animals"],
+        "summary": "Lista todas as ações dos animais.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
           },
           "400": {
             "$ref": "#/components/responses/ServerMessage"

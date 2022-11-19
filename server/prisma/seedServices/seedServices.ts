@@ -167,6 +167,13 @@ export class SeedServices {
   }
 
   async createAnimals() {
+    const female = await animalServices.findGenderByName({ name: 'Femea' });
+    const male = await animalServices.findGenderByName({ name: 'Macho' });
+    const animalAction = await prisma.animalAction.findMany();
+
+    const breeds = await animalServices.listBreeds();
+    const locals = await prisma.local.findMany();
+
     function randomNumber(min: number, max: number) {
       return Math.floor(
         Math.random() * (Math.ceil(min) - Math.floor(max)) + min,
@@ -174,16 +181,12 @@ export class SeedServices {
     }
 
     const images = [
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.techtudo.com.br%2Fnoticias%2F2019%2F12%2Ffazendeiros-russos-testam-realidade-virtual-em-vacas-entenda-o-caso.ghtml&psig=AOvVaw0dQo3ZP655jQAq__hxMqWR&ust=1666479233529000&source=images&cd=vfe&ved=2ahUKEwj5ppiHtfL6AhUDB7kGHS_sBNEQjRx6BAgAEAw',
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.sorisomail.com%2Fpartilha%2F51367.html&psig=AOvVaw0bNWgHEoHqnJ-HgKaR34dW&ust=1666479249858000&source=images&cd=vfe&ved=2ahUKEwiw_vyOtfL6AhVAMLkGHYF2DoMQjRx6BAgAEAw',
-      'https://sites.google.com/site/brcuriosedades/_/rsrc/1303337904597/home/vamos-rir-um-pouco/como%20tirar%20esta%20vaca.jpg',
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.sorisomail.com%2Fpartilha%2F51367.html&psig=AOvVaw0bNWgHEoHqnJ-HgKaR34dW&ust=1666479249858000&source=images&cd=vfe&ved=2ahUKEwiw_vyOtfL6AhVAMLkGHYF2DoMQjRx6BAgAEAw',
-      'https://www.google.com/url?sa=i&url=https%3A%2F%2Fm.sorisomail.com%2Fpartilha%2F51367.html&psig=AOvVaw0bNWgHEoHqnJ-HgKaR34dW&ust=1666479249858000&source=images&cd=vfe&ved=2ahUKEwiw_vyOtfL6AhVAMLkGHYF2DoMQjRx6BAgAEAw',
+      'https://s2.glbimg.com/J4t2oY-w6f0jcnBHoapgvX9UARU=/0x0:695x394/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2019/b/Q/ibQsuaQRmo9YSNqAmoTw/vaca-oculos-realidade-1.jpg',
+      'https://m.sorisomail.com/img/1276447447925.jpg',
+      'https://m.sorisomail.com/img/1276447447331.bmp',
+      'https://m.sorisomail.com/img/1276447448403.jpg',
+      'https://m.sorisomail.com/img/1276447447925.jpg',
     ];
-
-    const male = await animalServices.findGenderByName({ name: 'Macho' });
-    const female = await animalServices.findGenderByName({ name: 'Femea' });
-    const breeds = await animalServices.listBreeds();
 
     await prisma.animal.createMany({
       data: [
@@ -213,14 +216,34 @@ export class SeedServices {
     const animals = await animalServices.listAnimals();
 
     for (let i = 0; i < animals.length; i++) {
-      await prisma.animalHistory.create({
-        data: {
-          animalId: animals[i].id,
-          age: randomNumber(100, 150),
-          weight: randomNumber(300, 450),
-          image: images[i],
-        },
+      await prisma.animalHistory.createMany({
+        data: [
+          {
+            animalId: animals[i].id,
+            age: randomNumber(200, 300),
+            weight: randomNumber(400, 600),
+            image: images[i],
+          },
+          {
+            animalId: animals[i].id,
+            age: randomNumber(100, 150),
+            weight: randomNumber(300, 450),
+            image: images[i],
+          },
+        ],
       });
+
+      for (let j = 0; j < 3; j++) {
+        await prisma.animalActionHistory.create({
+          data: {
+            animalId: animals[i].id,
+            animalActionId: animalAction[j].id,
+            localId: locals[j].id,
+            startTime: new Date(),
+            endTime: new Date(),
+          },
+        });
+      }
     }
   }
 }

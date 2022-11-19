@@ -61,11 +61,11 @@ CREATE TABLE "animalsHistory" (
 -- CreateTable
 CREATE TABLE "animalsActionsHistory" (
     "id" TEXT NOT NULL,
-    "animalHistoryId" TEXT NOT NULL,
     "animalId" TEXT NOT NULL,
-    "age" DOUBLE PRECISION NOT NULL,
-    "weight" DOUBLE PRECISION NOT NULL,
-    "image" TEXT NOT NULL,
+    "localId" TEXT NOT NULL,
+    "animalActionId" TEXT NOT NULL,
+    "startTime" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "endTime" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -155,13 +155,19 @@ ALTER TABLE "userPermissions" ADD CONSTRAINT "userPermissions_userId_fkey" FOREI
 ALTER TABLE "userPermissions" ADD CONSTRAINT "userPermissions_permissionId_fkey" FOREIGN KEY ("permissionId") REFERENCES "permissions"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "animals" ADD CONSTRAINT "animals_breedId_fkey" FOREIGN KEY ("breedId") REFERENCES "breeds"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "animals" ADD CONSTRAINT "animals_genderId_fkey" FOREIGN KEY ("genderId") REFERENCES "genders"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "animals" ADD CONSTRAINT "animals_genderId_fkey" FOREIGN KEY ("genderId") REFERENCES "genders"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "animals" ADD CONSTRAINT "animals_breedId_fkey" FOREIGN KEY ("breedId") REFERENCES "breeds"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "animalsHistory" ADD CONSTRAINT "animalsHistory_animalId_fkey" FOREIGN KEY ("animalId") REFERENCES "animals"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "animalsActionsHistory" ADD CONSTRAINT "animalsActionsHistory_animalId_fkey" FOREIGN KEY ("animalId") REFERENCES "animals"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "animalsActionsHistory" ADD CONSTRAINT "animalsActionsHistory_animalActionId_fkey" FOREIGN KEY ("animalActionId") REFERENCES "animalsActions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "animalsActionsHistory" ADD CONSTRAINT "animalsActionsHistory_localId_fkey" FOREIGN KEY ("localId") REFERENCES "locals"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

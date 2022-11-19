@@ -14,5 +14,4 @@ export const backofficeRouter: Router = Router();
 
 backofficeRouter.use('/auth', authRouter);
 backofficeRouter.use('/users', authMiddleware, userRouter);
-// backofficeRouter.use('/animals', authMiddleware, animalRouter);
 backofficeRouter.use('/animals', animalRouter);

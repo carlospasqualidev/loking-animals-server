@@ -65,11 +65,11 @@ model Animal {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Breed  Breed  @relation(fields: [breedId], references: [id], onDelete: Cascade)
-  Gender Gender @relation(fields: [genderId], references: [id], onDelete: Cascade)
-
   AnimalHistory       AnimalHistory[]
   AnimalActionHistory AnimalActionHistory[]
+
+  Gender Gender @relation(fields: [genderId], references: [id])
+  Breed  Breed  @relation(fields: [breedId], references: [id])
 
   @@map("animals")
 }
@@ -91,20 +91,20 @@ model AnimalHistory {
 }
 
 model AnimalActionHistory {
-  id       String @id @unique @default(uuid())
-  animalId String
-  localId  String
-  actionId String
+  id             String @id @unique @default(uuid())
+  animalId       String
+  localId        String
+  animalActionId String
 
-  startTime DateTime @default(now())
-  DateTime  DateTime @updatedAt
+  startTime DateTime  @default(now())
+  endTime   DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Animal       Animal        @relation(fields: [animalId], references: [id], onDelete: Cascade)
-  AnimalAction AnimalAction? @relation(fields: [actionId], references: [id], onDelete: Cascade)
-  Local        Local?        @relation(fields: [localId], references: [id], onDelete: Cascade)
+  Animal       Animal       @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  AnimalAction AnimalAction @relation(fields: [animalActionId], references: [id], onDelete: Cascade)
+  Local        Local        @relation(fields: [localId], references: [id])
 
   @@map("animalsActionsHistory")
 }
@@ -116,7 +116,7 @@ model AnimalAction {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  AnimalActionHistory AnimalActionHistory[]
+  Animals AnimalActionHistory[]
 
   @@map("animalsActions")
 }
@@ -127,7 +127,8 @@ model Breed {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Animal    Animal[]
+
+  Animals Animal[]
 
   @@map("breeds")
 }
@@ -138,7 +139,8 @@ model Gender {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Animal    Animal[]
+
+  Animals Animal[]
 
   @@map("genders")
 }
@@ -152,7 +154,7 @@ model Local {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  AnimalActionHistory AnimalActionHistory[]
+  AnimalsActionHistory AnimalActionHistory[]
 
   @@map("locals")
 }

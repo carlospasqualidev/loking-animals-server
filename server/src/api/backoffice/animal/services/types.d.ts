@@ -8,3 +8,10 @@ export interface ICreateAnimalHistory {
   weight: number;
   image: string;
 }
+
+export interface ICreateAnimalActionHistory {
+  animalId: string;
+  localId: string;
+  animalActionId: string;
+  startTime: Date;
+}

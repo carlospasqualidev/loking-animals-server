@@ -3,24 +3,42 @@ import { Request, Response } from 'express';
 
 // CLASS
 import { Validator } from '../../../../utils/validator/validator';
-// import { AnimalServices } from '../services/animalServices';
+import { AnimalServices } from '../services/animalServices';
 
 const validator = new Validator();
-// const animalServices = new AnimalServices();
+const animalServices = new AnimalServices();
 
-export async function createAnimal(req: Request, res: Response) {
-  const { animalId, localId, actionId } = req.body;
+export async function createActionHistory(req: Request, res: Response) {
+  const { animalId, animalActionId, localId } = req.body;
 
   validator.notNull([
-    { label: 'ID do Animal', variable: animalId },
-    { label: 'ID do Animal', variable: localId },
-    { label: 'ID do Animal', variable: actionId },
+    { label: 'ID do animal', variable: animalId },
+    { label: 'ID do local', variable: localId },
+    { label: 'ID da ação', variable: animalActionId },
   ]);
+
+  const animalData = await animalServices.findAnimalbyId({ animalId });
+
+  if (
+    animalData?.AnimalActionHistory.length &&
+    animalData.AnimalActionHistory[0].endTime === null
+  ) {
+    await animalServices.updateActionHistory({
+      animalActionHistoryId: animalData?.AnimalActionHistory[0].id,
+    });
+  } else {
+    await animalServices.createActionHistory({
+      animalId,
+      animalActionId,
+      localId,
+      startTime: new Date(),
+    });
+  }
 
   return res.status(200).json({
     ServerMessage: {
       statusCode: 200,
-      message: 'Animal cadastrado com sucesso.',
+      message: 'Ação de animal registrada com sucesso.',
     },
   });
 }
