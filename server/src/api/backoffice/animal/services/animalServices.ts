@@ -131,6 +131,7 @@ export class AnimalServices {
       select: {
         startTime: true,
         endTime: true,
+
         Animal: {
           select: {
             Breed: {
@@ -138,6 +139,15 @@ export class AnimalServices {
                 id: true,
                 name: true,
               },
+            },
+            AnimalHistory: {
+              select: {
+                weight: true,
+              },
+              orderBy: {
+                createdAt: 'desc',
+              },
+              take: 1,
             },
 
             Gender: {
@@ -160,6 +170,84 @@ export class AnimalServices {
         createdAt: 'asc',
       },
     });
+  }
+
+  async countAnimals() {
+    return prisma.animal.count();
+  }
+
+  async countAnimalsPerBreeds() {
+    const [Jersey, Holandes, PardoSuico, Gir, Girolando, Guzera, Sindi] =
+      await prisma.$transaction([
+        prisma.animal.count({
+          where: {
+            Breed: {
+              id: '6608c028-ed6e-4698-8f5b-166d170e3197',
+            },
+          },
+        }),
+        prisma.animal.count({
+          where: {
+            Breed: {
+              id: '6d972a02-c6bf-4106-83a1-6a2fd2251e8c',
+            },
+          },
+        }),
+        prisma.animal.count({
+          where: {
+            Breed: {
+              id: '5e029245-bf60-44f8-8edd-c86fbf5b66a9',
+            },
+          },
+        }),
+        prisma.animal.count({
+          where: {
+            Breed: {
+              id: '1bde3ba8-1fe9-44b3-a2a0-10955f88eaf9',
+            },
+          },
+        }),
+        prisma.animal.count({
+          where: {
+            Breed: {
+              id: 'dddaa5ed-d8d8-47c2-a5a8-27e90efff74f',
+            },
+          },
+        }),
+        prisma.animal.count({
+          where: {
+            Breed: {
+              id: '5e335889-b0f7-4452-8c32-c3757d2c7d71',
+            },
+          },
+        }),
+        prisma.animal.count({
+          where: {
+            Breed: {
+              id: 'b1beb8d6-992e-457b-9a1a-7e7e937c2e7a',
+            },
+          },
+        }),
+      ]);
+
+    return { Jersey, Holandes, PardoSuico, Gir, Girolando, Guzera, Sindi };
+  }
+
+  async countAnimalsActions() {
+    const [FoodingCount, VacinationCount] = await prisma.$transaction([
+      prisma.animalActionHistory.count({
+        where: {
+          animalActionId: '4cba2378-d748-4bf8-a094-b29a3cfc9ba1',
+        },
+      }),
+      prisma.animalActionHistory.count({
+        where: {
+          animalActionId: '4cba2378-d748-4bf8-a094-b29a3cfc9ba1',
+        },
+      }),
+    ]);
+
+    return { FoodingCount, VacinationCount };
   }
 
   // #endregion

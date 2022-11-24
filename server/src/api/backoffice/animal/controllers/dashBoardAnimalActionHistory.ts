@@ -12,7 +12,29 @@ export async function dashBoardAnimalActionHistory(
 ) {
   const AnimalActionsHistory = await animalServices.listAnimalsActions();
 
+  // #region AVG WEIGTH
+  let weight = 0;
+  let i = 0;
+
+  for (i = 0; i < AnimalActionsHistory.length; i++) {
+    weight += AnimalActionsHistory[i].Animal.AnimalHistory[0].weight;
+  }
+
+  const AnimalWeightAVG = weight / i;
+
+  // #endregion
+
+  // #region COUNTS
+
+  const BreedsCount = await animalServices.countAnimalsPerBreeds();
+  const AnimalsTotal = await animalServices.countAnimals();
+  const AnimalsActionsCount = await animalServices.countAnimalsActions();
+  // #endregion
+
   return res.status(200).json({
-    AnimalActionsHistory,
+    AnimalWeightAVG,
+    AnimalsActionsCount,
+    AnimalsTotal,
+    BreedsCount,
   });
 }
