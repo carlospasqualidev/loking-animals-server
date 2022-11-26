@@ -256,7 +256,6 @@ export class AnimalServices {
       }),
     ]);
 
-    console.log(Pasture, Food, Vaccine);
     return { Pasture, Food, Vaccine };
   }
 
