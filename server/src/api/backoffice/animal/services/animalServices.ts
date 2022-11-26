@@ -233,21 +233,31 @@ export class AnimalServices {
     return { Jersey, Holandes, PardoSuico, Gir, Girolando, Guzera, Sindi };
   }
 
-  async countAnimalsActions() {
-    const [FoodingCount, VacinationCount] = await prisma.$transaction([
+  async countAnimaisPerLocal() {
+    const [Pasture, Food, Vaccine] = await prisma.$transaction([
       prisma.animalActionHistory.count({
         where: {
-          animalActionId: '4cba2378-d748-4bf8-a094-b29a3cfc9ba1',
+          localId: '16d83c18-e8bb-4c25-8c5a-301348e5ccb5',
+          endTime: null,
         },
       }),
       prisma.animalActionHistory.count({
         where: {
-          animalActionId: '4cba2378-d748-4bf8-a094-b29a3cfc9ba1',
+          localId: '40516ec6-2b7d-432d-ad42-af7c8950eb34',
+          endTime: null,
+        },
+      }),
+
+      prisma.animalActionHistory.count({
+        where: {
+          localId: '035fe222-f4f5-4cdd-9793-e9cbe7bd6ed8',
+          endTime: null,
         },
       }),
     ]);
 
-    return { FoodingCount, VacinationCount };
+    console.log(Pasture, Food, Vaccine);
+    return { Pasture, Food, Vaccine };
   }
 
   // #endregion

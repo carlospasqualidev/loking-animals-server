@@ -28,12 +28,13 @@ export async function dashBoardAnimalActionHistory(
 
   const BreedsCount = await animalServices.countAnimalsPerBreeds();
   const AnimalsTotal = await animalServices.countAnimals();
-  const AnimalsActionsCount = await animalServices.countAnimalsActions();
+
+  const AnimalsPerLocal = await animalServices.countAnimaisPerLocal();
   // #endregion
 
   return res.status(200).json({
+    AnimalsPerLocal,
     AnimalWeightAVG,
-    AnimalsActionsCount,
     AnimalsTotal,
     BreedsCount,
   });

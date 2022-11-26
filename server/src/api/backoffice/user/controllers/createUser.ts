@@ -35,10 +35,11 @@ export async function createUser(req: Request, res: Response) {
     email,
     image,
     passwordHash: password,
-    role,
   });
 
-  const permission = await permissionServices.findByName({ name: 'Lab' });
+  const permission = await permissionServices.findByName({
+    name: 'Backoffice',
+  });
 
   await userPermissionServices.createUserPermission({
     userId: user.id!,

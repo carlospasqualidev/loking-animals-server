@@ -196,6 +196,59 @@
       }
     },
 
+    "/backoffice/users/create": {
+      "post": {
+        "tags": ["Backoffice | Users"],
+        "summary": "Cria um novo usuário.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "default": "Carlos Pasquali"
+                  },
+                  "email": {
+                    "type": "string",
+                    "default": "carlosdpasqualip@hotmail.com"
+                  },
+                  "image": {
+                    "type": "string",
+                    "default": "link"
+                  },
+                  "password": {
+                    "type": "string",
+                    "default": 123123123
+                  },
+                  "role": {
+                    "type": "string",
+                    "default": "Funcionario"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
+
     "/backoffice/users/edit": {
       "put": {
         "tags": ["Backoffice | Users"],
