@@ -18,6 +18,8 @@ export async function createActionHistory(req: Request, res: Response) {
   ]);
 
   const animalData = await animalServices.findAnimalbyId({ animalId });
+  await animalServices.findActionbyId({ actionId: animalActionId });
+  await animalServices.findLocationbyId({ locationId: localId });
 
   if (
     animalData?.AnimalActionHistory.length &&

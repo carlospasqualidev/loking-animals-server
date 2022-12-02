@@ -174,12 +174,6 @@ export class SeedServices {
     const breeds = await animalServices.listBreeds();
     const locals = await prisma.local.findMany();
 
-    function randomNumber(min: number, max: number) {
-      return Math.floor(
-        Math.random() * (Math.ceil(min) - Math.floor(max)) + min,
-      );
-    }
-
     const images = [
       'https://s2.glbimg.com/J4t2oY-w6f0jcnBHoapgvX9UARU=/0x0:695x394/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2019/b/Q/ibQsuaQRmo9YSNqAmoTw/vaca-oculos-realidade-1.jpg',
       'https://m.sorisomail.com/img/1276447447925.jpg',
@@ -220,14 +214,14 @@ export class SeedServices {
         data: [
           {
             animalId: animals[i].id,
-            age: randomNumber(200, 300),
-            weight: randomNumber(400, 600),
+            age: 450,
+            weight: 350,
             image: images[i],
           },
           {
             animalId: animals[i].id,
-            age: randomNumber(100, 150),
-            weight: randomNumber(300, 450),
+            age: 340,
+            weight: 300,
             image: images[i],
           },
         ],
@@ -240,7 +234,6 @@ export class SeedServices {
             animalActionId: animalAction[j].id,
             localId: locals[j].id,
             startTime: new Date(),
-            endTime: new Date(),
           },
         });
       }
