@@ -424,6 +424,7 @@
         }
       }
     },
+
     "/backoffice/animals/create/action": {
       "post": {
         "tags": ["Backoffice | Animals"],
@@ -525,10 +526,19 @@
       }
     },
 
-    "/backoffice/animals/dashboard": {
+    "/backoffice/animals/details/{animalId}": {
       "get": {
         "tags": ["Backoffice | Animals"],
         "summary": "Lista todas as ações dos animais.",
+        "parameters": [
+          {
+            "name": "animalId",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "security": [
           {
             "bearerAuth": []

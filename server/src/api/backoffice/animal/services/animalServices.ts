@@ -57,6 +57,56 @@ export class AnimalServices {
     return animal;
   }
 
+  async findAnimalDetailsbyId({ animalId }: { animalId: string }) {
+    const animal = await prisma.animal.findFirst({
+      select: {
+        id: true,
+        Gender: {
+          select: {
+            name: true,
+          },
+        },
+        Breed: {
+          select: {
+            name: true,
+          },
+        },
+        AnimalHistory: {
+          select: {
+            age: true,
+            image: true,
+            weight: true,
+          },
+        },
+        AnimalActionHistory: {
+          select: {
+            id: true,
+            endTime: true,
+            startTime: true,
+            Local: {
+              select: {
+                name: true,
+              },
+            },
+            AnimalAction: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+
+      where: {
+        id: animalId,
+      },
+    });
+    validator.needExist([
+      { label: 'ID do animal nao encontrado', variable: animal },
+    ]);
+    return animal;
+  }
+
   async findLocationbyId({ locationId }: { locationId: string }) {
     const location = await prisma.local.findFirst({
       where: {
@@ -214,49 +264,49 @@ export class AnimalServices {
         prisma.animal.count({
           where: {
             Breed: {
-              id: '2690ed5d-1873-48d9-871c-ad9c69c237da',
+              id: 'e5d30f84-6d57-488b-a14a-a3e885f34c3b',
             },
           },
         }),
         prisma.animal.count({
           where: {
             Breed: {
-              id: '6e4f82c4-19cc-487f-9db9-bbe28981bbe0',
+              id: 'c1054489-5812-4aca-b62e-fe8409a74bb4',
             },
           },
         }),
         prisma.animal.count({
           where: {
             Breed: {
-              id: 'f0d603f5-164e-4dd8-a892-580efbeb941f',
+              id: '2a08f847-b270-4877-95c2-cbab1ebc785e',
             },
           },
         }),
         prisma.animal.count({
           where: {
             Breed: {
-              id: '45f577db-b169-43fb-91f8-a45d5c2e5691',
+              id: 'cb7e74e7-0ae8-4b88-a99c-52446bb03326',
             },
           },
         }),
         prisma.animal.count({
           where: {
             Breed: {
-              id: '4ddd61ec-7d69-4889-9944-037dc73b837d',
+              id: '33ab24fa-6385-453d-be7d-2c8319d6da37',
             },
           },
         }),
         prisma.animal.count({
           where: {
             Breed: {
-              id: '36ebd113-7327-4e1e-88f5-39afadb1dbb5',
+              id: 'b2a58b48-a4ae-4f6d-80d7-a0d0ebb60349',
             },
           },
         }),
         prisma.animal.count({
           where: {
             Breed: {
-              id: '11fc0bad-de85-429a-bd59-5585137f4ca3',
+              id: '629171c8-04e1-439d-bed3-b83a0d63d73a',
             },
           },
         }),
@@ -269,20 +319,20 @@ export class AnimalServices {
     const [Pasture, Food, Vaccine] = await prisma.$transaction([
       prisma.animalActionHistory.count({
         where: {
-          localId: 'b1bc32b0-d2df-4e0a-872d-a6e4f3766b0b',
+          localId: '5880f069-c836-41eb-b4d9-ca4ea18475b8',
           endTime: null,
         },
       }),
       prisma.animalActionHistory.count({
         where: {
-          localId: 'a2bcb0ca-9d95-42f8-9966-7968f7f6e4b9',
+          localId: '2dccc315-1b71-47dc-86d3-fd5744099c29',
           endTime: null,
         },
       }),
 
       prisma.animalActionHistory.count({
         where: {
-          localId: 'ee28203b-a001-4a79-af95-5b74d85fb7d5',
+          localId: '8c606ae5-f5d4-45f2-96fa-f78227682165',
           endTime: null,
         },
       }),
