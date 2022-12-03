@@ -7,3 +7,11 @@ export const requestAnimalsData = async ({ setState }: { setState: any }) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const requestAnimalsList = async ({ setState }: { setState: any }) => {
+  await Api.get('/animals/list')
+    .then((res) => {
+      setState(res.data);
+    })
+    .catch((err) => console.log(err));
+};

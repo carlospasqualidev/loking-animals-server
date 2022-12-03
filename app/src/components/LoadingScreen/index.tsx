@@ -28,7 +28,7 @@ export const LoadingScreen = ({ isLoading, children }: ILoadingScreen) =>
   isLoading ? (
     <View style={styles.container}>
       <Text type="h6" style={styles.text}>
-        Veglivery💚
+        Animals💚
       </Text>
 
       <ActivityIndicator animating />

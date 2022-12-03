@@ -1,17 +1,20 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable no-console */
 // LIBS
 import { View, StyleSheet, ScrollView } from 'react-native';
 
 import { useEffect, useState } from 'react';
-import { CardInfo, CardInfoRow } from './components';
 
 // COMPONENTS
-import { Text, Card } from '../../components';
+import { Text, Card, LoadingScreen, CardInfoRow, CardInfo } from '../../components';
 import { sizes, useTheme } from '../../styles';
-import { requestAnimalsData } from './functions';
+import { requestAnimalsData, requestAnimalsList } from './functions';
+import { IAnimalsList, IDashboard } from './types';
 
 export const Dashboard = () => {
-  const [animalDashboard, setAnimalDashboard] = useState<any>(null);
+  const [animalDashboard, setAnimalDashboard] = useState<IDashboard | null>(null);
+  const [animalList, setAnimalList] = useState<IAnimalsList[] | null>(null);
+
   const theme = useTheme();
 
   // #region STYLES
@@ -42,51 +45,81 @@ export const Dashboard = () => {
 
   useEffect(() => {
     requestAnimalsData({ setState: setAnimalDashboard });
+    requestAnimalsList({ setState: setAnimalList });
   }, []);
 
   return (
-    <View style={styles.background}>
-      <Card>
-        <View>
-          <View style={{ width: '100%', alignItems: 'center' }}>
-            <Text type="h6">Animais</Text>
-          </View>
+    <LoadingScreen isLoading={!animalDashboard}>
+      <View style={styles.background}>
+        {animalDashboard && (
+          <>
+            <Card>
+              <View>
+                <View style={{ width: '100%', alignItems: 'center' }}>
+                  <Text type="h6">Animais</Text>
+                </View>
 
-          <View style={styles.spacer} />
+                <View style={styles.spacer} />
 
-          <View style={styles.smallCards}>
-            <CardInfo label="Total" value="340" icon="cow" />
-            <CardInfo label="Peso" value="340" icon="scale-unbalanced" />
-            <CardInfo label="Idade" value="340" icon="baby-carriage" />
-          </View>
+                <View style={styles.smallCards}>
+                  <CardInfo
+                    label="Total"
+                    value={animalDashboard!.AnimalsTotal}
+                    icon="cow"
+                  />
+                  <CardInfo
+                    label="Peso"
+                    value={animalDashboard!.AnimalWeightAVG}
+                    icon="scale-unbalanced"
+                  />
+                  <CardInfo label="Idade" value={343} icon="baby-carriage" />
+                </View>
 
-          <ScrollView style={styles.scrollView}>
-            <CardInfoRow icon="cow" gender="Macho" breed="Jersey" weight="300" />
-            <CardInfoRow icon="cow" gender="Macho" breed="Jersey" weight="300" />
-            <CardInfoRow icon="cow" gender="Macho" breed="Jersey" weight="300" />
-            <CardInfoRow icon="cow" gender="Macho" breed="Jersey" weight="300" />
-            <CardInfoRow icon="cow" gender="Macho" breed="Jersey" weight="300" />
-            <CardInfoRow icon="cow" gender="Macho" breed="Jersey" weight="300" />
-            <CardInfoRow icon="cow" gender="Macho" breed="Jersey" weight="300" />
-          </ScrollView>
-        </View>
-      </Card>
+                <ScrollView style={styles.scrollView}>
+                  {animalList!.map((animal, i: number) => (
+                    <CardInfoRow
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={i}
+                      icon="cow"
+                      gender={animal.Gender}
+                      breed={animal.Breed}
+                      weight={animal.weight}
+                    />
+                  ))}
+                </ScrollView>
+              </View>
+            </Card>
 
-      <Card>
-        <View>
-          <View style={{ width: '100%', alignItems: 'center' }}>
-            <Text type="h6">Animais p/ local</Text>
-          </View>
+            <Card>
+              <View>
+                <View style={{ width: '100%', alignItems: 'center' }}>
+                  <Text type="h6">Animais p/ local</Text>
+                </View>
 
-          <View style={styles.spacer} />
+                <View style={styles.spacer} />
 
-          <View style={styles.smallCards}>
-            <CardInfo label="Pasto" value="340" icon="cow" />
-            <CardInfo label="Comida" value="340" icon="scale-unbalanced" />
-            <CardInfo label="Vacina" value="340" icon="baby-carriage" />
-          </View>
-        </View>
-      </Card>
-    </View>
+                <View style={styles.smallCards}>
+                  <CardInfo
+                    label="Pasto"
+                    value={animalDashboard!.AnimalsPerLocal.Pasture}
+                    icon="cow"
+                  />
+                  <CardInfo
+                    label="Comida"
+                    value={animalDashboard!.AnimalsPerLocal.Food}
+                    icon="scale-unbalanced"
+                  />
+                  <CardInfo
+                    label="Vacina"
+                    value={animalDashboard!.AnimalsPerLocal.Vaccine}
+                    icon="baby-carriage"
+                  />
+                </View>
+              </View>
+            </Card>
+          </>
+        )}
+      </View>
+    </LoadingScreen>
   );
 };
