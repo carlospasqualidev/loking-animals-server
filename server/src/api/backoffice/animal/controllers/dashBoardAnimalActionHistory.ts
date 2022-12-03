@@ -10,8 +10,6 @@ export async function dashBoardAnimalActionHistory(
   req: Request,
   res: Response,
 ) {
-  console.log('ff');
-
   const AnimalActionsHistory = await animalServices.listAnimalsActions();
 
   // #region AVG WEIGTH
