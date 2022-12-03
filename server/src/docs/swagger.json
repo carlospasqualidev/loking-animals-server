@@ -526,6 +526,27 @@
       }
     },
 
+    "/backoffice/animals/dashboard": {
+      "get": {
+        "tags": ["Backoffice | Animals"],
+        "summary": "Lista informações dos animais para o dashboard.",
+
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ServerMessage"
+          },
+          "400": {
+            "$ref": "#/components/responses/ServerMessage"
+          }
+        }
+      }
+    },
     "/backoffice/animals/details/{animalId}": {
       "get": {
         "tags": ["Backoffice | Animals"],
