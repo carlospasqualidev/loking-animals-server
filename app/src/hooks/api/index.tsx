@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const Api = axios.create({
-  baseURL: 'http://192.168.0.71:8080/api/backoffice',
+  baseURL: 'http://10.32.1.186:8080/api/backoffice',
   headers: {
     Accept: '*/*',
     'Access-Control-Allow-Origin': '*',

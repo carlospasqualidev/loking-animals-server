@@ -14,6 +14,7 @@ import { IAnimalsList, IDashboard } from './types';
 export const Dashboard = () => {
   const [animalDashboard, setAnimalDashboard] = useState<IDashboard | null>(null);
   const [animalList, setAnimalList] = useState<IAnimalsList[] | null>(null);
+  const [callFunctions, setCallFunctions] = useState(0);
 
   const theme = useTheme();
 
@@ -46,7 +47,9 @@ export const Dashboard = () => {
   useEffect(() => {
     requestAnimalsData({ setState: setAnimalDashboard });
     requestAnimalsList({ setState: setAnimalList });
-  }, []);
+
+    setTimeout(() => setCallFunctions(callFunctions + 1), 1000);
+  }, [callFunctions]);
 
   return (
     <LoadingScreen isLoading={!animalDashboard}>
@@ -112,7 +115,7 @@ export const Dashboard = () => {
                   <CardInfo
                     label="Vacina"
                     value={animalDashboard!.AnimalsPerLocal.Vaccine}
-                    icon="baby-carriage"
+                    icon="needle"
                   />
                 </View>
               </View>
