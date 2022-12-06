@@ -1,0 +1,6 @@
+Conectar no wifi sinalfraco 12345678
+abrir serial port do arudino ide
+ligar o backend
+abrir MQTTlens 
+verificar mosquito no serviçoes do windows
+iniciar o frontend / app
