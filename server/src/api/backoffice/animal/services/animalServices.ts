@@ -94,6 +94,9 @@ export class AnimalServices {
               },
             },
           },
+          orderBy: {
+            createdAt: 'desc',
+          },
         },
       },
 
