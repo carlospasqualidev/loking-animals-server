@@ -4,155 +4,155 @@ import { useRouter } from "next/router";
 import axios from "axios";
 
 import {
-	Container,
-	Typography,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Paper,
+  Container,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@mui/material";
 
 const Animal = ({ data }) => {
-	const { AnimalHistory, Breed, Gender, AnimalActionHistory } = data
+  const { AnimalHistory, Breed, Gender, AnimalActionHistory } = data;
 
-	const dateFormatter = (date) =>
-		new Date(date).toLocaleDateString("pt-BR", {
-			timeZone: "UTC",
-			hour: "2-digit",
-			minute: "2-digit",
-		});
+  const dateFormatter = (date) =>
+    new Date(date).toLocaleDateString("pt-BR", {
+      timeZone: "UTC",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
-	return (
-		<Container maxWidth="lg" style={{ marginBottom: 20 }}>
-			<div style={{ ...style }}>
-				<Image
-					src={AnimalHistory?.length > 0 && AnimalHistory[0].image}
-					quality={100}
-					width={1000}
-					height={400}
-					objectFit="cover"
-					style={{ ...imageStyle }}
-				/>
-				<Typography
-					variant="h4"
-					component="h4"
-					fontWeight="medium"
-					style={{ ...textStyle }}
-				>
-					{Breed?.name || ""}
-				</Typography>
-				<Typography
-					variant="small"
-					component="small"
-					fontSize={20}
-					style={{ ...subtitleStyle }}
-				>
-					{Gender?.name || ""}
-				</Typography>
-				<Typography
-					variant="h5"
-					component="h5"
-					fontSize={25}
-					color="#6C6C6C"
-					style={{ marginTop: 40, marginBottom: 10 }}
-				>
-					Histórico
-				</Typography>
+  return (
+    <Container maxWidth="lg" style={{ marginBottom: 20 }}>
+      <div style={{ ...style }}>
+        <Image
+          src={AnimalHistory?.length > 0 && AnimalHistory[0].image}
+          quality={100}
+          width={1000}
+          height={400}
+          objectFit="cover"
+          style={{ ...imageStyle }}
+        />
+        <Typography
+          variant="h4"
+          component="h4"
+          fontWeight="medium"
+          style={{ ...textStyle }}
+        >
+          {Breed?.name || ""}
+        </Typography>
+        <Typography
+          variant="small"
+          component="small"
+          fontSize={20}
+          style={{ ...subtitleStyle }}
+        >
+          {Gender?.name || ""}
+        </Typography>
+        <Typography
+          variant="h5"
+          component="h5"
+          fontSize={25}
+          color="#6C6C6C"
+          style={{ marginTop: 40, marginBottom: 10 }}
+        >
+          Histórico
+        </Typography>
 
-				<TableContainer component={Paper}>
-					<Table>
-						<TableHead>
-							<TableRow style={{ backgroundColor: "#F2F2F2" }}>
-								<TableCell align="left">Idade(Em dias)</TableCell>
-								<TableCell align="left">Peso(kg)</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{AnimalHistory.map(({ age, image, weight }) => (
-								<TableRow key={age}>
-									<TableCell align="left">{age}</TableCell>
-									<TableCell align="left">{weight}</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow style={{ backgroundColor: "#F2F2F2" }}>
+                <TableCell align="left">Idade(Em dias)</TableCell>
+                <TableCell align="left">Peso(kg)</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {AnimalHistory.map(({ age, image, weight }) => (
+                <TableRow key={age}>
+                  <TableCell align="left">{age}</TableCell>
+                  <TableCell align="left">{weight}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-				<Typography
-					variant="h5"
-					component="h5"
-					fontSize={25}
-					color="#6C6C6C"
-					style={{ marginTop: 40, marginBottom: 10 }}
-				>
-					Atividades
-				</Typography>
+        <Typography
+          variant="h5"
+          component="h5"
+          fontSize={25}
+          color="#6C6C6C"
+          style={{ marginTop: 40, marginBottom: 10 }}
+        >
+          Atividades
+        </Typography>
 
-				<TableContainer component={Paper}>
-					<Table>
-						<TableHead>
-							<TableRow style={{ backgroundColor: "#F2F2F2" }}>
-								<TableCell align="left">Local</TableCell>
-								<TableCell align="left">Ação(kg)</TableCell>
-								<TableCell align="left">Data de Inicio</TableCell>
-								<TableCell align="left">Data de Fim</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{AnimalActionHistory.map(
-								({ Local, AnimalAction, endTime, startTime }) => (
-									<TableRow key={Local.name}>
-										<TableCell align="left">{Local.name}</TableCell>
-										<TableCell align="left">{AnimalAction.name}</TableCell>
-										<TableCell align="left">
-											{(startTime && dateFormatter(startTime)) || "-"}
-										</TableCell>
-										<TableCell align="left">
-											{(endTime && dateFormatter(endTime)) || "-"}
-										</TableCell>
-									</TableRow>
-								)
-							)}
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</div>
-		</Container>
-	);
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow style={{ backgroundColor: "#F2F2F2" }}>
+                <TableCell align="left">Local</TableCell>
+                <TableCell align="left">Ação</TableCell>
+                <TableCell align="left">Data de Inicio</TableCell>
+                <TableCell align="left">Data de Fim</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {AnimalActionHistory.map(
+                ({ Local, AnimalAction, endTime, startTime }) => (
+                  <TableRow key={Local.name}>
+                    <TableCell align="left">{Local.name}</TableCell>
+                    <TableCell align="left">{AnimalAction.name}</TableCell>
+                    <TableCell align="left">
+                      {(startTime && dateFormatter(startTime)) || "-"}
+                    </TableCell>
+                    <TableCell align="left">
+                      {(endTime && dateFormatter(endTime)) || "-"}
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    </Container>
+  );
 };
 
 const style = {
-	display: "flex",
-	flexDirection: "column",
-	marginTop: 20,
+  display: "flex",
+  flexDirection: "column",
+  marginTop: 20,
 };
 
 const imageStyle = {
-	borderRadius: 5,
+  borderRadius: 5,
 };
 
 const textStyle = {
-	marginTop: 20,
-	color: "#4B4B4B",
+  marginTop: 20,
+  color: "#4B4B4B",
 };
 
 const subtitleStyle = {
-	color: "#8B8B8B",
+  color: "#8B8B8B",
 };
 
 export async function getServerSideProps({ query }) {
-	const { id } = query;
+  const { id } = query;
 
-	const url = `http://localhost:8080/api/backoffice/animals/details/${id}`;
+  const url = `http://localhost:8080/api/backoffice/animals/details/${id}`;
 
-	const response = await axios({ method: "get", url });
+  const response = await axios({ method: "get", url });
 
-	return {
-		props: {data: response?.data},
-	};
+  return {
+    props: { data: response?.data },
+  };
 }
 
 // id: "713b8d46-11ba-4c31-8a3c-8a83706e5754",
